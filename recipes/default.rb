@@ -1,8 +1,12 @@
-def install(users)
+def install(users, path)
   install_libxml2_dev
 
   users.each do |user|
-    run_bundle_install(user)
+    if path
+      run_bundle_install_with_path user, path
+    else
+      run_bundle_install user
+    end
   end
 end
 
@@ -21,5 +25,14 @@ def run_bundle_install(user)
   end
 end
 
+def run_bundle_install_with_path(user, path)
+  execute "bundle-install-#{user}" do
+    action :run
+    command "bundle install --path #{path}"
+    cwd "/vagrant"
+  end
+end
+
 users = node[:bundle][:users]
-install(users)
+path = node[:bundle][:path]
+install users, path
