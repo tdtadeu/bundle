@@ -21,6 +21,8 @@ def run_bundle_install(user)
   execute "bundle-install-#{user}" do
     action :run
     command "bundle install"
+    user user
+    group user
     cwd "/vagrant"
   end
 end
@@ -29,6 +31,8 @@ def run_bundle_install_with_path(user, path)
   execute "bundle-install-#{user}" do
     action :run
     command "bundle install --path #{path}"
+    user user
+    group user
     cwd "/vagrant"
   end
 end
